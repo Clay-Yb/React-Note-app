@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './App.scss';
+import Modal from './components/Modal';
+import Note from './components/Note';
+import { useGlobalContext } from './ContextProvider';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const { handleModal, notes } = useGlobalContext();
+	return (
+		<>
+			<Modal />
+			<main className="main container">
+				<div className="main_container">
+					<div className="setup same_height">
+						<button className="add_btn" onClick={() => handleModal('open')}>
+							<span className="add_icon">+</span>
+							<p>Add Note</p>
+						</button>
+					</div>
+					{notes.length ? (
+						<>
+							{notes.map((item, i) => (
+								<Note key={i} {...item} />
+							))}
+						</>
+					) : null}
+				</div>
+			</main>
+		</>
+	);
 }
 
 export default App;
